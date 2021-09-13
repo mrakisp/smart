@@ -12,4 +12,6 @@ export const api = new WooCommerceRestApi({
   
   //PROVIDE CURRENCY
   export const currencySymbol = "€";
+
+  export const defaultPerPageProducts = 50;
   

@@ -1,5 +1,6 @@
 import './App.css';
 import Dashboard from './Dashboard/Dashboard';
+import Products from './Woocommerce/Products';
 
 import { Layout, Menu } from 'antd';
 
@@ -47,6 +48,9 @@ const App = () => {
                 </Route>
                 <Route path="/dashboard">
                   <Dashboard />
+                </Route>
+                <Route path="/woocommerce-products">
+                  <Products />
                 </Route>
               </Switch>
             </div>
