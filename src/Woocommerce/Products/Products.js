@@ -1,6 +1,7 @@
 
-import { api, defaultPerPageProducts } from '../Config';
+import { api, defaultPerPageProducts } from '../../Config';
 import StockUpdate from './components/StockUpdate';
+import SearchProduct from './components/SearchProduct';
 import { Table } from 'antd';
 import React, { useState, useEffect } from 'react';
 
@@ -103,7 +104,7 @@ const Products = () => {
 
         let products = response.data;
         let productsData = [];
-        
+
         products.forEach((product) => {
           let product_categories = '';
           if (product.categories && product.categories.length > 0) {
@@ -122,8 +123,8 @@ const Products = () => {
             name: product.name,
             sku: product.sku,
             id: product.id,
-            price: product.regular_price ? product.regular_price : product.price,
-            sale_price: product.on_sale ? product.price : product.sale_price,
+            price: product.price,
+            sale_price: product.sale_price,
             stock_status: product.stock_status,
             status: product.status,
             categories: product_categories,
@@ -131,7 +132,7 @@ const Products = () => {
           })
         });
         setData(productsData);
-        
+
       })
       .catch((error) => {
       });
@@ -145,17 +146,25 @@ const Products = () => {
     fetchData('pageChanged', page, pageSize);
   }
 
+  const onSearchResult = (value) => {
+    setData(value)
+  }
+
   return (
-    <Table
-      loading={spinEnabled}
-      columns={columns}
-      expandable={{
-        expandedRowRender: record => <StockUpdate id={record.id}/>,
-        rowExpandable: record => record.name !== 'Not Expandable',
-      }}
-      dataSource={data}
-      pagination={{ current: page, total: count, defaultPageSize: per_page, onChange: changePage }}
-    />
+    <>
+      <SearchProduct onSearchResult={onSearchResult}/>
+      <Table
+        loading={spinEnabled}
+        columns={columns}
+        expandable={{
+          expandedRowRender: record => <StockUpdate id={record.id} />,
+          rowExpandable: record => record.name !== 'Not Expandable',
+        }}
+        dataSource={data}
+        pagination={{ current: page, total: count, defaultPageSize: per_page, onChange: changePage }}
+      />
+    </>
+
   );
 }
 

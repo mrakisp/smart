@@ -1,5 +1,5 @@
 
-import { api } from '../../Config';
+import { api } from '../../../Config';
 import React, { useState, useEffect } from 'react';
 import { InputNumber, Row, Col, Button, Spin } from 'antd';
 import styled from 'styled-components';
