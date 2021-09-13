@@ -1,6 +1,6 @@
 
-  
-  //ENABLE REST API TO YOUR WOOCOMMERCE STORE AND PROVIDE THE INFOS
+
+//ENABLE REST API TO YOUR WOOCOMMERCE STORE AND PROVIDE THE INFOS
 const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 export const api = new WooCommerceRestApi({
   url: "",
@@ -9,9 +9,8 @@ export const api = new WooCommerceRestApi({
   version: "wc/v3"
 });
 
-  
-  //PROVIDE CURRENCY
-  export const currencySymbol = "€";
 
-  export const defaultPerPageProducts = 50;
-  
+//PROVIDE CURRENCY
+export const currencySymbol = "€";
+
+export const defaultPerPageProducts = 50;
