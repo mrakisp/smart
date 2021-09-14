@@ -1,8 +1,10 @@
 
 import { api, defaultPerPageProducts } from '../../Config';
-import StockUpdate from './components/StockUpdate';
+import VariationsUpdate from './components/VariationsUpdate';
+import SimpleProductUpdate from './components/SimpleProductUpdate';
+// import CategoriesUpdate from './components/CategoriesUpdate';
 import SearchProduct from './components/SearchProduct';
-import { Table } from 'antd';
+import { Table, Row } from 'antd';
 import React, { useState, useEffect } from 'react';
 
 const per_page = defaultPerPageProducts;
@@ -101,7 +103,7 @@ const Products = () => {
       .then((response) => {
         setSpinEnabled(false);
         setPage(page);
-
+        
         let products = response.data;
         let productsData = [];
 
@@ -123,13 +125,16 @@ const Products = () => {
             name: product.name,
             sku: product.sku,
             id: product.id,
-            price: product.price,
+            price: product.type === "simple" ? product.regular_price : product.price,
             sale_price: product.sale_price,
             stock_status: product.stock_status,
             status: product.status,
             categories: product_categories,
             description: product.description,
+            type:product.type,
+            wholeModel: product
           })
+        
         });
         setData(productsData);
 
@@ -147,17 +152,28 @@ const Products = () => {
   }
 
   const onSearchResult = (value) => {
-    setData(value)
+
+    if(value && value[0] && !value[0].id){
+      fetchData();
+    }else{
+      setData(value)
+    }
+    setSpinEnabled(false);
+    
   }
 
   return (
     <>
-      <SearchProduct onSearchResult={onSearchResult}/>
+      <SearchProduct onSearchResult={onSearchResult} setSpinEnabled={setSpinEnabled}/>
       <Table
         loading={spinEnabled}
         columns={columns}
         expandable={{
-          expandedRowRender: record => <StockUpdate id={record.id} />,
+          expandedRowRender: record => 
+          <Row style={{ margin: '0 0 20px 0' }}  >
+            {record.type === "simple" ? <SimpleProductUpdate model={record.wholeModel}/> : <VariationsUpdate id={record.id} />}
+            {/* <CategoriesUpdate id={record.id} /> */}
+          </Row>,
           rowExpandable: record => record.name !== 'Not Expandable',
         }}
         dataSource={data}

@@ -1,7 +1,7 @@
 
-import { api } from '../../../Config';
+import { api,currencySymbol } from '../../../Config';
 import React, { useState, useEffect } from 'react';
-import { InputNumber, Row, Col, Button, Spin } from 'antd';
+import { InputNumber, Col, Button, Spin } from 'antd';
 import styled from 'styled-components';
 
 const Label = styled.div`
@@ -11,7 +11,7 @@ const Label = styled.div`
     color: #484848;
 `;
 
-const StockUpdate = ({ id }) => {
+const VariationsUpdate = ({ id }) => {
     const [attributes, setAttributes] = useState();
     const [value] = useState();
     const [stockToUpdate, setStockToUpdate] = useState();
@@ -66,15 +66,13 @@ const StockUpdate = ({ id }) => {
     }
 
     const onChangeStock = (variation_id, value) => {
-
         let variationIndex = stockToUpdate.findIndex(elem => elem.id === variation_id);
         stockToUpdate[variationIndex].stock_quantity = value;
         setUpdateData(stockToUpdate);
-
     }
 
     const onChangeSalePrice = (value) => {
-        
+
         setSalePrice(value);
         pricesToUpdate.forEach((price) => {
             price.sale_price = value;
@@ -93,38 +91,36 @@ const StockUpdate = ({ id }) => {
 
     return (
         <>
-            <Row style={{ margin: '0 0 20px 0' }}>
-                <Col span={6}>
-                    <Label>Stock By Variation</Label><br />
-                    {attributes && attributes.map((data) => (
+            <Col span={4}>
+                <Label>Stock By Variation</Label><br />
+                {attributes && attributes.map((data) => (
 
-                        <Col key={data.attributes[0].id + data.attributes[0].option}>
-                            {data.attributes[0].name + ": " + data.attributes[0].option} <br />
-                            <InputNumber key={data.id} min={0} defaultValue={data.stock_quantity ? data.stock_quantity : 0} value={value} onChange={onChangeStock.bind(value, data.id)} />
-                        </Col>
+                    <Col key={data.attributes[0].id + data.attributes[0].option}>
+                        {data.attributes[0].name + ": " + data.attributes[0].option} <br />
+                        <InputNumber key={data.id} min={0} defaultValue={data.stock_quantity ? data.stock_quantity : 0} value={value} onChange={onChangeStock.bind(value, data.id)} />
+                    </Col>
 
-                    ))}
+                ))}<br />
+                {loading ? <Spin /> : <Button type="primary" onClick={updateDataFetch}>Update Stock</Button>}
+            </Col >
+            <Col span={4}>
+                <Label>Price</Label><br />
+                <InputNumber defaultValue={price} value={price} onChange={onChangePrice} /> {currencySymbol}<br /><br />
+                <Label>Sale Price</Label><br />
+                <InputNumber defaultValue={salePrice} value={salePrice} onChange={onChangeSalePrice} /> {currencySymbol}<br /><br />
+                {loading ? <Spin /> : <Button type="primary" onClick={updateDataFetch}>Update Price</Button>}
+            </Col>
 
-                </Col >
-                <Col span={6}>
-                    <Label>Price</Label><br />
-                    <InputNumber defaultValue={price} value={price} onChange={onChangePrice} /> €<br /><br />
-                    <Label>Sale Price</Label><br />
-                    <InputNumber defaultValue={salePrice} value={salePrice} onChange={onChangeSalePrice} /> €
-                </Col>
-
-            </Row>
-            
-            <Row>
-                <Col span={6}>
+            {/* <Row>
+                <Col span={4}>
                     {loading ? <Spin /> : <Button type="primary" onClick={updateDataFetch}>Update Stock</Button>}
                 </Col >
                 <Col span={6}>
                     {loading ? <Spin /> : <Button type="primary" onClick={updateDataFetch}>Update Price</Button>}
                 </Col>
-            </Row>
+            </Row> */}
         </>
     );
 }
 
-export default StockUpdate;
+export default VariationsUpdate;
