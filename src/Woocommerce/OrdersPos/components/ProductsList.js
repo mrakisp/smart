@@ -9,9 +9,9 @@ const ProductsList = ({model, onDeleteItem}) => {
       renderItem={item => (
         <List.Item actions={ [<Button onClick={onDeleteItem.bind(this,item.key)}>DELETE</Button>]}>
           <List.Item.Meta
-            avatar={<Avatar src={item.image} />}
+            avatar={<img style={{ maxHeight: '100px' }} src={item.image} />}
             title={item.name}
-            // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            description={"Price: " +item.wholeModel.price }
           />
          
         </List.Item>

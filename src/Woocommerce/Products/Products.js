@@ -76,7 +76,7 @@ const Products = () => {
   const [spinEnabled, setSpinEnabled] = useState(false);
 
   useEffect(() => {
-
+    setSpinEnabled(true);
     api.get("reports/products/totals",)
       .then((response) => {
         let simple_productsIndex = response.data.findIndex(elem => elem.slug === "simple");

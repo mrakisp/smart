@@ -4,6 +4,27 @@ import SearchProduct from '../CommonComponents/SearchProduct';
 import { Col, Row, Spin } from 'antd';
 import React, { useState } from 'react';
 import ProductsList from './components/ProductsList';
+import styled from 'styled-components';
+
+const colStyles = {
+  borderRight: '1px solid #eee',
+};
+
+const rowStyles = {
+  borderTop: '1px solid #eee',
+  margin: '10px 0 0 0', 
+  paddingTop: '10px'
+};
+
+const Label = styled.div`
+    text-align: left;
+    font-size: 20px;
+    letter-spacing: 0.4px;
+    color: #484848;
+    background: #1890ff;
+    color: #fff;
+    padding: 5px 10px 7px;
+`;
 
 const OrdersPos = () => {
 
@@ -41,12 +62,13 @@ const OrdersPos = () => {
   return (
     <>
       <SearchProduct showSpinnerOnClear={false} onSearchResult={onSearchResult} setSpinEnabled={setSpinEnabled} />
-      <Row>
-        <Col span={12}>
+      <Row style={rowStyles}>
+        <Col span={12} style={colStyles}>
+        <Label>Cart</Label>
           {spinEnabled ? <Spin/>  : <ProductsList onDeleteItem={onDeleteItem} model={products}/>}
         </Col>
         <Col span={12}>
-          user inputs
+        <Label>Order Details</Label>
         </Col>
       </Row>
     </>
