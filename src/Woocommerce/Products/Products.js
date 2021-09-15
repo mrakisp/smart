@@ -3,9 +3,10 @@ import { api, defaultPerPageProducts } from '../../Config';
 import VariationsUpdate from './components/VariationsUpdate';
 import SimpleProductUpdate from './components/SimpleProductUpdate';
 // import CategoriesUpdate from './components/CategoriesUpdate';
-import SearchProduct from './components/SearchProduct';
-import { Table, Row } from 'antd';
+import SearchProduct from '../CommonComponents/SearchProduct';
+import { Table, Row  } from 'antd';
 import React, { useState, useEffect } from 'react';
+import noImage from '../../assets/images/noImage.jpg';
 
 const per_page = defaultPerPageProducts;
 
@@ -15,7 +16,7 @@ const columns = [
     dataIndex: 'image',
     render: (text, record) => {
       return (
-        <img alt="product" style={{ maxHeight: '50px' }} src={record.image} />
+        <img alt="product" style={{ maxHeight: '50px' }} src={record.image ? record.image : noImage} />
       );
     },
   },
@@ -59,13 +60,13 @@ const columns = [
     dataIndex: 'status',
     width: '10%',
   },
-  {
-    title: 'Action',
-    dataIndex: '',
-    key: 'action',
-    render: () => <div>Edit</div>,
-    width: '10%',
-  },
+  // {
+  //   title: 'Action',
+  //   dataIndex: '',
+  //   key: 'action',
+  //   render: () => <div>Edit</div>,
+  //   width: '10%',
+  // },
 ];
 
 const Products = () => {
@@ -179,6 +180,7 @@ const Products = () => {
         dataSource={data}
         pagination={{ current: page, total: count, defaultPageSize: per_page, onChange: changePage }}
       />
+      
     </>
 
   );

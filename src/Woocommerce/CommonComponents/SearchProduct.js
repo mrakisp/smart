@@ -1,5 +1,5 @@
 
-import { api } from '../../../Config';
+import { api } from '../../Config';
 import React, { useState, useEffect } from 'react';
 import { Input, Row, Col, } from 'antd';
 import styled from 'styled-components';
@@ -14,13 +14,12 @@ const Label = styled.div`
     color: #484848;
 `;
 
-const SearchProduct = ({ onSearchResult, setSpinEnabled }) => {
-
+const SearchProduct = ({ onSearchResult, setSpinEnabled, showSpinnerOnClear = true }) => {
+  
     const [results, setResults] = useState()
 
-
     const onSearch = (type, value) => {
-
+       
         const data = {}
         let endopoint = "products";
         if (type !== "id") {
@@ -30,9 +29,16 @@ const SearchProduct = ({ onSearchResult, setSpinEnabled }) => {
         }
 
         const typeValue = type;
-
-        setSpinEnabled(true);
-
+ 
+        if(value){
+            setSpinEnabled(true);
+        }else if(!value && showSpinnerOnClear){
+            setSpinEnabled(true);
+        }else{
+            setSpinEnabled(false);
+        }
+        
+        //setSpinEnabled(true);
         api.get(endopoint, _.isEmpty(data) ? null : data)
             .then((response) => {
 
@@ -70,6 +76,8 @@ const SearchProduct = ({ onSearchResult, setSpinEnabled }) => {
                         status: product.status,
                         categories: product_categories,
                         description: product.description,
+                        type:product.type,
+                        wholeModel: product
                     })
                 });
                 setResults(productsData);
